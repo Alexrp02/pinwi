@@ -1,7 +1,11 @@
 # g5-SOFTIX
-HEAD(PROBANDO COSA)
-Proyecto de software:\n
-Francisco Javier Martin Luque\n
-Miguel Moya Castillo\n
-Alejandro Ramos Peña\n
-Javier Carmona \n
+##SIGO PROBANDO
+Proyecto de software:
+
+Francisco Javier Martin Luque
+
+Miguel Moya Castillo
+
+Alejandro Ramos Peña
+
+Javier Carmona 
