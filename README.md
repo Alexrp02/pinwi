@@ -12,4 +12,4 @@ Proyecto de software:
 -Alejandro Caro Casado  
 -Susana Gomez Alvarez  
 -Alba Sánchez Ibáñez  
-Aqui va Fernando pero es bobo  
+-Fernando el Jefe
