@@ -4,8 +4,8 @@ Proyecto de software:
 -Miguel Moya Castillo  
 -Alejandro Ramos Peña  
 -Javier Carmona   
--Jose Torres  
+-Jose Torres Postigo
 -Alejandro Caro Casado  
 -Susana Gomez Alvarez  
 -Alba Sánchez Ibáñez  
--Fernando el Jefe
+-Fernando Calvo Díaz
