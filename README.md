@@ -3,7 +3,7 @@ Proyecto de software:
 -Francisco Javier Martin Luque  
 -Miguel Moya Castillo  
 -Alejandro Ramos Peña  
--Javier Carmona   
+-Javier Carmona Gálvez
 -Jose Torres Postigo  
 -Alejandro Caro Casado  
 -Susana Gomez Alvarez  
