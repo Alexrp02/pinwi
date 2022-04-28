@@ -38,3 +38,10 @@ body{
     font-size: 2rem;
     width: 10px;
 }
+
+img{
+    position: relative;
+    top: -30%;
+    width: 120%;
+    left: -10%;
+}
