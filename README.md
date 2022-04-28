@@ -1,15 +1,11 @@
 # g5-SOFTIX
-PRUEBa
-====
-Prubación 2 la secuela
------
 Proyecto de software:  
 -Francisco Javier Martin Luque  
 -Miguel Moya Castillo  
 -Alejandro Ramos Peña  
--Javier Carmona   
--Jose Torres  
+-Javier Carmona Gálvez  
+-Jose Torres Postigo  
 -Alejandro Caro Casado  
 -Susana Gomez Alvarez  
 -Alba Sánchez Ibáñez  
-Aqui va Fernando pero es bobo  
+-Fernando Calvo Díaz
