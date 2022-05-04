@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, addDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, query, 
+	where, collection, getDoc} from "https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js";
 
 
 export class DBManager
@@ -26,7 +27,7 @@ export class DBManager
 	const app = initializeApp(firebaseConfig);
 
 	const db = getFirestore(app);
-	this.BD = db;
+	DBManager.BD = db;
 
 	console.log("susmu");
 
@@ -58,7 +59,7 @@ export class DBManager
 	registerUser(usuario,contra)
 	{
 		try{
-			setDoc(doc(this.BD, "userInfo", usuario), 
+			setDoc(doc(DBManager.BD, "userInfo", usuario), 
 			{
 				Exp: 0,
 				Password: contra,
@@ -68,12 +69,42 @@ export class DBManager
 			});
 		}catch(e)
 		{
-			console.error("Error adding document: ", e);
+			console.error("Error registering user: ", e);
 		}
 	};
 
-	getUser(usuario, contra)
+	async loginUser(usuario, contra)
 	{
+		const docRef = doc(DBManager.BD, "userInfo", usuario);
+		const docSnap = await getDoc(docRef);
+		let usuarioresultao = 0;
+
+		if (docSnap.exists()) {
+			if(contra == docSnap.get("Password"))
+			{
+				usuarioresultao = 
+				{
+					user: usuario,
+					Password: contra, 
+					EXP: docSnap.get("Exp"),
+					coins: docSnap.get("coins"),
+					equipped: docSnap.get("Equipped")
+				}
+				console.log(usuarioresultao);
+				
+			}else
+			{
+				console.log("Este jueputa no sabe ni su contra pa");
+				usuarioresultao = 0;
+			}
+			
+		  } else {
+			// doc.data() will be undefined in this case
+			usuarioresultao = 0;
+			console.log("Este jambo no está registrao mami");
+		  }
+		  return usuarioresultao;
+  	//console.log(docSnap);
 
 	}
 
