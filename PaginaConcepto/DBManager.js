@@ -4,6 +4,7 @@ import { getFirestore, collection, getDocs, doc } from "https://www.gstatic.com/
 
 export class DBManager
 {
+	static BD;
 	
     init()
     {
@@ -27,16 +28,17 @@ export class DBManager
 	const app = initializeApp(firebaseConfig);
 
 	const db = getFirestore(app);
+	this.BD = db;
 
 	console.log("susmu");
 
-	async function getCities(db) {
+	/*async function getCities(db) {
   const citiesCol = collection(db, 'inventory');
   const citySnapshot = await getDocs(citiesCol);
   const cityList = citySnapshot.docs.map(doc => doc.data());
   return cityList;
 }
-	console.log(getCities(db));
+	console.log(getCities(db));*/
   
     }
 }
