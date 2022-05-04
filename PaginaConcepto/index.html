@@ -2,6 +2,11 @@
 <html>
 <head>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<script type="module">
+	import {DBManager} from "./DBManager.js";
+	const db = new DBManager();
+	db.init();
+</script>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 	<style type="text/css">
