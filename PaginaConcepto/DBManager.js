@@ -55,9 +55,15 @@ export class DBManager
 	{
 
 	}
-
+/***
+ * Registra el usuario con los datos proporcionados
+ * Te devuelve un valor numérico para asegurarte que ha sido correcto
+ * 0 es error
+ * 1 es correcto
+ */
 	registerUser(usuario,contra)
 	{
+		let resultao = 0;
 		try{
 			setDoc(doc(DBManager.BD, "userInfo", usuario), 
 			{
@@ -67,12 +73,28 @@ export class DBManager
 				user: usuario,
 				Equipped:[]
 			});
+			resultao = 1;
 		}catch(e)
 		{
 			console.error("Error registering user: ", e);
 		}
+		return resultao;
 	};
-
+/***
+ * El método loginUser necesita 2 parametros, el usuario y la contraseña,
+ * este comprueba que esté registrado, en caso de error de las credenciales
+ * te devuelve el valor numérico 0.
+ * En el caso de haber acertado te devuelve un objeto con los parametros:
+ * user, Password, EXP, coins y equipped
+ * 
+ * por ejemplo voy a usar coins, pero con todos es igual. Se llama tal que así:
+ * var objeto = loginUser(usuario, contra);
+ * objeto.coin;
+ * ó también se puede llamar así:
+ * objeto['coin'];
+ * 
+ * igual con el resto de parametros 
+ */
 	async loginUser(usuario, contra)
 	{
 		const docRef = doc(DBManager.BD, "userInfo", usuario);
@@ -94,14 +116,14 @@ export class DBManager
 				
 			}else
 			{
-				console.log("Este jueputa no sabe ni su contra pa");
+				console.log("La contraseña es incorrecta");
 				usuarioresultao = 0;
 			}
 			
 		  } else {
 			// doc.data() will be undefined in this case
 			usuarioresultao = 0;
-			console.log("Este jambo no está registrao mami");
+			console.log("El usuario introducido no está registrado");
 		  }
 		  return usuarioresultao;
   	//console.log(docSnap);
