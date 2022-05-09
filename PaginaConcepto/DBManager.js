@@ -133,9 +133,9 @@ export class DBManager
  * 
  * por ejemplo voy a usar coins, pero con todos es igual. Se llama tal que así:
  * var objeto = await loginUser(usuario, contra);
- * objeto.coin;
+ * objeto.coins;
  * ó también se puede llamar así:
- * objeto['coin'];
+ * objeto['coins'];
  * 
  * igual con el resto de parametros 
  */
@@ -197,10 +197,10 @@ export class DBManager
 
 	/** El parámetro es el nombre de usuario, se asume que es correcto.
  * Igualmente en caso de error devuelve -1
- * En caso de ser correcto devuelve el map de los objetos que posee el usuario con un booleano que indica si lo tiene equipado.
+ * En caso de ser correcto devuelve un array de Strings con los nombres de los objetos equipados.
  * 
  * Ejemplo de uso:
- * var experiencia = await getExp("usuario1");
+ * var equipados = await getItemsEquipped("usuario1");
 	 */
 	 async getItemsEquipped(usuario)	//Incompleto
 	 {
@@ -210,19 +210,91 @@ export class DBManager
 		 if(docSnap.exists())
 		 {
 			 resultao = await docSnap.get("Equipped");
-			 console.log(resultao);
+			 let arrayresultao = [];
+			// console.log(resultao);
 			 for (let i = 0; i < Object.getOwnPropertyNames(resultao).length; i++) {
-				console.log("Item " + Object.getOwnPropertyNames(resultao)[i]+ " "+ resultao[Object.getOwnPropertyNames(resultao)[i]]);
+				arrayresultao[i] =  Object.getOwnPropertyNames(resultao)[i];
 			  }
-			 console.log(Object.getOwnPropertyNames(resultao).length);
-			 console.log(resultao["jaja"]);
+			  resultao = arrayresultao;
 		 }
 		 return resultao;
 	 }
 
-	getItem()
+ /** El parámetro es el nombre del item, 
+ * en caso de error devuelve -1
+ * En caso de ser correcto devuelve el valor numérico del precio.
+ * 
+ * Ejemplo de uso:
+ * var precio = await getItemPrice("ternera");
+	 */
+	async getItemPrice(nombreItem)
 	{
+		const docRef = doc(DBManager.BD, "shop", nombreItem);
+		const docSnap = await getDoc(docRef);
+		let resultao = -1;
+		if(docSnap.exists())
+		{
+			resultao = await docSnap.get("Price");
+		}
+		return resultao;
+	}
 
+
+/** Requiere de un parámetro, nombreItem, en el caso de no ser correcto devuelve -1
+ * 
+ * Cuando es correcto devuelve un objeto con todos los parámetros del Item especificado, 
+ * cambia su estructura dependiendo de si es cosmético o no
+ * es la propiedad skin, en el caso de true es cosmético
+ * 
+ * En caso de ser cosmético sus propiedades son:
+ * Icon, ImageIG, LvlUnlocked, Name, Price, XP y skin
+ * 
+ * En el caso de ser comestible sus propiedades son:
+ * Icon, LvlUnlocked, Name, Price, XP, skin
+ * 
+ * Para llamar a las propiedades por ejemplo voy a usar skin, pero con todos es igual. Se llama tal que así:
+ * var objeto = await getItem(nombreItem);
+ * objeto.skin;
+ * ó también se puede llamar así:
+ * objeto['skin'];
+ * 
+ * igual con el resto de parametros 
+ * 
+ */
+	async getItem(nombreItem)
+	{
+		const docRef = doc(DBManager.BD, "shop", nombreItem);
+		const docSnap = await getDoc(docRef);
+		let resultao = -1;
+		if(docSnap.exists())
+		{
+			let cosmetico = await docSnap.get("skin");
+			if(cosmetico)
+			{
+				resultao = 
+				{
+					Icon: await docSnap.get("Icon"),
+					ImageIG: await docSnap.get("ImageIG"),
+					LvlUnlocked: await docSnap.get("LvlUnlocked"),
+					Name: await docSnap.get("Name"),
+					Price: await docSnap.get("Price"),
+					XP: await docSnap.get("XP"),
+					skin: await docSnap.get("skin")
+				}
+			}else
+			{
+				resultao = 
+				{
+					Icon: await docSnap.get("Icon"),
+					LvlUnlocked: await docSnap.get("LvlUnlocked"),
+					Name: await docSnap.get("Name"),
+					Price: await docSnap.get("Price"),
+					XP: await docSnap.get("XP"),
+					skin: await docSnap.get("skin")
+				}
+			}
+		}
+		return resultao;
 	}
 
 	getShop()

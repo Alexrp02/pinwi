@@ -11,8 +11,11 @@
 	//console.log(await db.loginUser("diablo", "mami"));
 	//console.log(await db.getExp("diablo"));
 	//console.log(await db.getInventory("diablo"));
-	console.log(await db.getItemsEquipped("diablo"));
+	//console.log(await db.getItemsEquipped("diablo"));
 	//console.log(await db.getCoins("diablo"));
+	//console.log(await db.getItemPrice("ternera"));
+	let objeto = await db.getItem("ternera")
+	console.log(objeto);
 </script>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
