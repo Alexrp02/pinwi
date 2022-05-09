@@ -2,11 +2,38 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.7.0/firebase
 import { getFirestore, doc, setDoc, query, 
 	where, collection, getDoc} from "https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js";
 
+	/*
+	IMPORTANTE
+
+	PARA QUE FUNCIONE DBMANAGER NECESITA:
+
+	·Ser llamado como un módulo (type = "module")
+	·El método en el que se llame debe ser async(esto es necesario para permitir el await)
+	·llamar a los métodos async de esta clase con await(sino te dará una promesa y solo tu y dios podrás entenderlo xd)
+
+	*/
 
 export class DBManager
 {
 	static BD;
-
+/**
+ * Es el método inicial de la BD. Sirve para inicializarla, hace falta llamarlo antes de hacer cualquier tipo de operación.
+ * 
+ * Ejemplo de uso:
+ * <script type="module"> //Ejemplo de integración de la bbdd con codigo usado para probar la bbdd
+	import {DBManager} from "./DBManager.js";
+	const db = new DBManager();
+	db.init();
+	//db.registerUser("diablo", "mami");
+	//db.loginUser("diablo", "mami");
+	//console.log(await db.loginUser("diablo", "mami"));
+	//console.log(await db.getExp("diablo"));
+	//console.log(await db.getInventory("diablo"));
+	//console.log(await db.getItemsEquipped("diablo"));
+	console.log(await db.getCoins("diablo"));
+</script>
+ * 
+ */
     init()
     {    
 	// Import the functions you need from the SDKs you need
@@ -46,9 +73,23 @@ export class DBManager
 
 	}
 
-	getCoins()
+	/** El parámetro es el nombre de usuario, se asume que es correcto.
+ * Igualmente en caso de error devuelve -1
+ * En caso de ser correcto devuelve el valor de las monedas del usuario.
+ * 
+ * Ejemplo de uso:
+ * var monedas = await getCoins("usuario1");
+	 */
+	async getCoins(usuario)
 	{
-
+		const docRef = doc(DBManager.BD, "userInfo", usuario);
+		const docSnap = await getDoc(docRef);
+		let resultao = -1;
+		if(docSnap.exists())
+		{
+			resultao = await docSnap.get("coins");
+		}
+		return resultao;
 	}
 
 	delete()
@@ -71,7 +112,10 @@ export class DBManager
 				Password: contra,
 				coins: 0,
 				user: usuario,
-				Equipped:[]
+				Equipped:
+				{
+					//comida:true
+				}
 			});
 			resultao = 1;
 		}catch(e)
@@ -130,25 +174,6 @@ export class DBManager
 
 	}
 
-	/**
-	 * Ejemplo privado para facilitar los getter.
-	 * @param {*} usuario 
-	 * @param {*} coleccion 
-	 * @param {*} parametro 
-	 * @returns 
-	 */
-	async #getter(usuario, coleccion, parametro)
-	{
-		const docRef = doc(DBManager.BD, coleccion, usuario);
-		const docSnap = await getDoc(docRef);
-		let resultao = -1;
-		if(docSnap.exists())
-		{
-			resultao = await docSnap.get(parametro);
-			//console.log(resultao);
-		}
-		return resultao;
-	}
 
 /** El parámetro es el nombre de usuario, se asume que es correcto.
  * Igualmente en caso de error devuelve -1
@@ -159,14 +184,41 @@ export class DBManager
  */
 	async getExp(usuario)
 	{
-		return this.#getter(usuario, "userInfo", "Exp");
-		
+		const docRef = doc(DBManager.BD, "userInfo", usuario);
+		const docSnap = await getDoc(docRef);
+		let resultao = -1;
+		if(docSnap.exists())
+		{
+			resultao = await docSnap.get("Exp");
+			//console.log(resultao);
+		}
+		return resultao;
 	}
 
-	getInventory()
-	{
-
-	}
+	/** El parámetro es el nombre de usuario, se asume que es correcto.
+ * Igualmente en caso de error devuelve -1
+ * En caso de ser correcto devuelve el map de los objetos que posee el usuario con un booleano que indica si lo tiene equipado.
+ * 
+ * Ejemplo de uso:
+ * var experiencia = await getExp("usuario1");
+	 */
+	 async getItemsEquipped(usuario)	//Incompleto
+	 {
+		 const docRef = doc(DBManager.BD, "userInfo", usuario);
+		 const docSnap = await getDoc(docRef);
+		 let resultao = -1;
+		 if(docSnap.exists())
+		 {
+			 resultao = await docSnap.get("Equipped");
+			 console.log(resultao);
+			 for (let i = 0; i < Object.getOwnPropertyNames(resultao).length; i++) {
+				console.log("Item " + Object.getOwnPropertyNames(resultao)[i]+ " "+ resultao[Object.getOwnPropertyNames(resultao)[i]]);
+			  }
+			 console.log(Object.getOwnPropertyNames(resultao).length);
+			 console.log(resultao["jaja"]);
+		 }
+		 return resultao;
+	 }
 
 	getItem()
 	{
@@ -183,9 +235,23 @@ export class DBManager
 
 	}
 
-	getItemsEquipped()
+	/** El parámetro es el nombre de usuario, se asume que es correcto.
+ * Igualmente en caso de error devuelve -1
+ * En caso de ser correcto devuelve el map de los objetos que posee el usuario con un booleano que indica si lo tiene equipado.
+ * 
+ * Ejemplo de uso:
+ * var experiencia = await getExp("usuario1");
+	 */
+	async getInventory(usuario)
 	{
-
+		const docRef = doc(DBManager.BD, "userInfo", usuario);
+		const docSnap = await getDoc(docRef);
+		let resultao = -1;
+		if(docSnap.exists())
+		{
+			resultao = await docSnap.get("Equipped");
+		}
+		return resultao;
 	}
 
 }
