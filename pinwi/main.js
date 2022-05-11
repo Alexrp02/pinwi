@@ -7,6 +7,7 @@ const d = document.getElementById("d")
 const face = document.getElementById("face")
 const Ropa = document.getElementById("roro")
 const money = document.getElementById("money")
+const sessionStorage = window.sessionStorage
 
 var exp = 0
 var lvl = 0
@@ -92,4 +93,6 @@ function pinwiFunction () {
 
     }
 
+    Name.innerHTML = sessionStorage.getItem("name")
+    
 

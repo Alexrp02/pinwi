@@ -7,6 +7,8 @@ const signupUsername = document.getElementById("signupUsername");
 const signupPassword = document.getElementById("signupPassword");
 const confirmPassword = document.getElementById("confirmPassword");
 
+const sessionStorage = window.sessionStorage
+
 
 function setFormMessage(formElement, type, message) {
     const messageElement = formElement.querySelector(".form__message");
@@ -59,12 +61,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }else
         {
             console.log("Hemos iniciado sesión en usuario: " + usuario.user + " con la contraseña: " + usuario.Password + " con un nivel de experiencia: " + usuario.EXP);
-            
+            sessionStorage.setItem("name", loginUsername.value)
             window.location.href = "./main.html";
         }
     });
 
-     createAccountForm.addEventListener("submit", async e => {
+    createAccountForm.addEventListener("submit", async e => {
         e.preventDefault()
         
         if (signupPassword.value!=confirmPassword.value){
