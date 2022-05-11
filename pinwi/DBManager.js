@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-app.js";
-import { getFirestore, doc, setDoc, query, 
+import { getFirestore, doc, setDoc, query, addDoc, updateDoc,  
 	where, collection, getDoc} from "https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js";
 
 	/*
@@ -102,7 +102,7 @@ export class DBManager
  * 0 es error
  * 1 es correcto
  */
-	registerUser(usuario,contra)
+	registerUser(usuario,contra,petname)
 	{
 		let resultao = 0;
 		try{
@@ -111,6 +111,7 @@ export class DBManager
 				Exp: 0,
 				Password: contra,
 				coins: 0,
+				petName: petname,
 				user: usuario,
 				Equipped:
 				{
@@ -330,5 +331,59 @@ export class DBManager
 		}
 		return resultao;
 	}
+
+	/*
+	Esta función devuelve el nombre de la mascota del usuario pasado como parámetro.
+	Se asume que todos los usuarios tienen un nombre de mascota puesto que en el registro 
+	hace falta especificar el nombre de la mascota si no, no deja registrarse.
+	Si por algún casual el usuario no tiene nombre de mascota, este devolverá undefined.
+	*/
+	async getPetName(usuario){
+		const docRef = doc(DBManager.BD, "userInfo", usuario);
+		const docSnap = await getDoc(docRef);
+		let name = ""
+		if(docSnap.exists())
+		{
+			name = await docSnap.get("petName")
+		}
+		return name
+	 }
+
+	async setPetName(usuario,petname){
+	try{
+		setDoc(doc(DBManager.BD, "userInfo", usuario), 
+		{
+			petName: petname
+		})
+	}catch(e)
+	{
+		console.error("Error changing the pet name: ", e);
+	}
+	return 1
+	}
+
+	async setFecha(usuario,fecha){
+		try{
+			updateDoc(doc(DBManager.BD, "userInfo", usuario), 
+			{
+				UltimoJuego: fecha
+			})
+		}catch(e)
+		{
+			console.error("Error changing the pet name: ", e);
+		}
+		return 1
+		}
+
+	async getFecha(usuario){
+		const docRef = doc(DBManager.BD, "userInfo", usuario);
+		const docSnap = await  getDoc(docRef);
+		let fecha = ""
+		if(docSnap.exists)
+		{
+			fecha = docSnap.get("UltimoJuego")
+		}
+		return fecha
+		}
 
 }
