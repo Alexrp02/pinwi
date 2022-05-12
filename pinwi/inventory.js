@@ -1,3 +1,4 @@
+import {DBManager} from './DBManager.js';
 // const notBought = document.getElementsByClassName("boxNB")
 const pj = document.getElementById("pajarita")
 // const bought = document.getElementsByClassName("boxB")
@@ -24,10 +25,39 @@ const b4 = document.getElementById("b4")
 // var d = [0,0,0,0,0]
 // var face = [0,0]
 
-var head= false
-var body = false
-var face = false
-var d = false
+var head= true
+var body = true
+var face = true
+var d = true
+
+var username = sessionStorage.getItem("username")
+const db = new DBManager();
+var equipped
+var comprado
+
+db.init();
+window.onload = async function(){
+    
+
+    const comprados = await db.getComprados(username) 
+    comprado = comprados
+
+    comprados.forEach(element => {
+        console.log(element)
+        document.getElementById(element).classList.add("boxB")
+        document.getElementById(element).classList.remove("boxNB")
+    });
+
+    const equipados = await db.getEquipados(username)
+    console.log(equipados)
+
+    equipped = equipados
+    for (var Parte in equipados){
+        document.getElementById(equipados[Parte]).classList.add("boxSel")
+    }
+    
+}
+
 
 pj.addEventListener("click", function() {
     buy(pj);
@@ -111,38 +141,46 @@ b4.addEventListener("click", function() {
     equipF(b4);
 })
 
-
 function buy(obj){
     //if tengo dinero lo compro
     obj.classList.add("boxB")
     obj.classList.remove("boxNB")
+    if (!comprado.includes(obj.id)){comprado.push(obj.id)}
+    console.log(comprado)
+    db.setComprados(username, comprado)
 }
 
-function equipH(obj){
+async function equipH(obj){
     if(head==true){
         unequipH()
     }
     obj.classList.add("boxSel")
     head=true
+    equipped.Cabeza = obj.id
+    await db.setEquipar(username, equipped)
 }
 
-function equipB(obj){
+async function equipB(obj){
     if(body==true){
         unequipB()
     }
     obj.classList.add("boxSel")
     body=true
+    equipped.Cuerpo = obj.id
+    await db.setEquipar(username, equipped)
 }
 
-function equipD(obj){
+async function equipD(obj){
     if(d==true){
         unequipD()
     }
     obj.classList.add("boxSel")
     d=true
+    equipped.Pies = obj.id
+    await db.setEquipar(username, equipped)
 }
 
-function equipF(obj){
+async function equipF(obj){
     if(face==true){
         unequipF()
     }
