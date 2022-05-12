@@ -115,7 +115,9 @@ export class DBManager
 				Equipped:
 				{
 					//comida:true
-				}
+				},
+				UltimoJuego: "12/05/2022",
+				petName: ""
 			});
 			resultao = 1;
 		}catch(e)
@@ -154,7 +156,9 @@ export class DBManager
 				 Password: contra, 
 				 EXP: docSnap.get("Exp"),
 				 coins: docSnap.get("coins"),
-				 equipped: docSnap.get("Equipped")
+				 equipped: docSnap.get("Equipped"),
+				 UltimoJuego: docSnap.get("UltimoJuego"),
+				 petName: docSnap.get("petName")
 			 }
 			 //console.log(usuarioresultao);
 			 
