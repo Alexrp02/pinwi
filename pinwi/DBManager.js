@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-app.js";
 import { getFirestore, doc, setDoc, query, 
-	where, collection, getDoc} from "https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js";
+	where, collection, getDoc, getDocs} from "https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js";
 
 	/*
 	IMPORTANTE
@@ -302,8 +302,20 @@ export class DBManager
 		return resultao;
 	}
 
-	getShop()
+	/** No requiere de ningún parametro, simplemente devuelve un array con los nombres de todos los objetos que existen en el juego.
+	 * 
+	 * No hace ninguna comprobación porque la única manera en la que esto estaría vacío sería si la BD se corrompiese.
+	 */
+	async getShop()
 	{
+		const CollectionSnapShot= await getDocs(collection(DBManager.BD, "shop"));
+		let resultao = [];
+		CollectionSnapShot.forEach((doc) => 
+		{
+			//console.log(doc.id, " => ", doc.data());
+			resultao.push(doc.id);
+		});
+		return resultao;
 
 	}
 
