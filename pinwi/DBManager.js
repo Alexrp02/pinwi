@@ -506,4 +506,51 @@ export class DBManager {
 		return fecha
 	}
 
+	async getComprados(usuario){
+		const docRef = doc(DBManager.BD, "userInfo", usuario);
+		const docSnap = await  getDoc(docRef);
+		let comprados = ""
+		if(docSnap.exists)
+		{
+			comprados = await docSnap.get("Comprados")
+		}
+		return comprados
+		}
+
+	async getEquipados(usuario){
+		const docRef = doc(DBManager.BD, "userInfo", usuario);
+		const docSnap = await  getDoc(docRef);
+		let equipped = ""
+		if(docSnap.exists)
+		{
+			equipped = await docSnap.get("Equipped")
+		}
+		return equipped
+		}
+
+	async setEquipar(usuario,objeto){
+		try{
+			updateDoc(doc(DBManager.BD, "userInfo", usuario), 
+			{
+				Equipped: objeto
+			})
+		}catch(e)
+		{
+			console.error("Error changing the pet name: ", e);
+		}
+		return 1
+		}
+	
+	async setComprados(usuario,objeto){
+		try{
+			updateDoc(doc(DBManager.BD, "userInfo", usuario), 
+			{
+				Comprados: objeto
+			})
+		}catch(e)
+		{
+			console.error("Error changing the pet name: ", e);
+		}
+		return 1
+	}
 }

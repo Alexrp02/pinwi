@@ -33,63 +33,15 @@ Lvl.innerHTML = "LVL "+ lvl
 Exp.innerHTML = exp + " EXP"
 Name.innerHTML= pet
 
+var username = sessionStorage.getItem("username")
 
+const equipados = await db.getEquipados(username)
+    console.log(equipados)
 
-var equipped = await db.getEquip(user)
+    for (var Parte in equipados){
+        document.getElementById(Parte).src = "./ropa/" + equipados[Parte] + "F.png"
+    }
 
-for(let i=0; i<equipped.length;i++){
-    if(equipped[i]=="gorro"){
-        Head.src="./ropa/gorroF.png";
-    }
-    if(equipped[i]=="naruto"){
-        Head.src="./ropa/narutoF.png";
-    }
-    if(equipped[i]=="mario"){
-        Head.src="./ropa/marioF.png";
-    }
-    if(equipped[i]=="cumple"){
-        Head.src="./ropa/cumpleF.png";
-    }
-    if(equipped[i]=="b1"){
-        Head.src="./ropa/vacio.png";
-    }
-    if(equipped[i]=="pajarita"){
-        body.src="./ropa/pajaF.png";
-    }
-    if(equipped[i]=="cadena"){
-        body.src="./ropa/cadenaF.png";
-    }
-    if(equipped[i]=="betis"){
-        body.src="./ropa/betisF.png";
-    }
-    if(equipped[i]=="traje"){
-        body.src="./ropa/trajeF.png";
-    }
-    if(equipped[i]=="b2"){
-        body.src="./ropa/vacio.png";
-    }
-    if(equipped[i]=="chancla"){
-        d.src="./ropa/chanclasF.png";
-    }
-    if(equipped[i]=="gato"){
-        d.src="./ropa/gatoF.png";
-    }
-    if(equipped[i]=="amogus"){
-        d.src="./ropa/amogusF.png";
-    }
-    if(equipped[i]=="tortu"){
-        d.src="./ropa/tortuF.png";
-    }
-    if(equipped[i]=="b3"){
-        d.src="./ropa/vacio.png";
-    }
-    if(equipped[i]=="gafas"){
-        face.src="./ropa/gafasF.png"
-    }
-    if(equipped[i]=="b4"){
-        face.src="./ropa/vacio.png";
-    }
-}
 
 switch (lvl){
     case 0: break

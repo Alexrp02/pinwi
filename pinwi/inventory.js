@@ -1,10 +1,9 @@
 // const notBought = document.getElementsByClassName("boxNB")
 import { DBManager } from './DBManager.js';
-
-
 // const bought = document.getElementsByClassName("boxB")
 
 const gorro = document.getElementById("gorro")
+const g = document.getElementById("gorro")
 const naruto = document.getElementById("naruto")
 const mario = document.getElementById("mario")
 const cumple = document.getElementById("cumple")
@@ -12,7 +11,7 @@ const pajarita = document.getElementById("pajarita")
 const cadena = document.getElementById("cadena")
 const betis = document.getElementById("betis")
 const traje = document.getElementById("traje")
-const chancla = document.getElementById("chancla")
+const chancla = document.getElementById("chanclas")
 const gato = document.getElementById("gato")
 const amogus = document.getElementById("amogus")
 const tortu = document.getElementById("tortu")
@@ -29,51 +28,45 @@ const b4 = document.getElementById("b4")
 const items = document.getElementsByClassName("box")
 
 
-const db = new DBManager();
-db.init();
-
-// var head= [0,0,0,0,0]
-// var body = [0,0,0,0,0]
-// var d = [0,0,0,0,0]
-// var face = [0,0]
-var user = sessionStorage.getItem("username")
-var mon = await db.getCoins(user)
-var exp = await db.getExp(user)
-
-money.innerHTML = mon + "€"
-
 var head = true
 var body = true
 var face = true
 var d = true
+var mon
+var exp
 
-var bought = await db.getBuy(user)
-for (let i = 0; i < bought.length; i++) {
-    let found = false
-    let j = 0
-    while (j < items.length && !found) {
-        if (bought[i] == items[j].id) {
-            items[j].classList.add("boxB")
-            items[j].classList.remove("boxNB")
-            found = true
-        }
-        j++
+var username = sessionStorage.getItem("username")
+const db = new DBManager();
+var equipped
+var comprado
+
+db.init();
+
+window.onload = async function(){
+
+    const comprados = await db.getComprados(username) 
+    comprado = comprados
+    console.log(comprados)
+
+    comprados.forEach(element => {
+        console.log(element)
+        document.getElementById(element).classList.add("boxB")
+        document.getElementById(element).classList.remove("boxNB")
+    });
+
+    const equipados = await db.getEquipados(username)
+    console.log(equipados)
+
+    equipped = equipados
+    for (var Parte in equipados){
+        document.getElementById(equipados[Parte]).classList.add("boxSel")
     }
-}
+    
+    mon = await db.getCoins(username)
+    exp = await db.getExp(username)
 
-var equipped = await db.getEquip(user)
-for (let i = 0; i < equipped.length; i++) {
-    let found = false
-    let j = 0
-    while (j < items.length && !found) {
-        if (equipped[i] == items[j].id) {
-            items[j].classList.add("boxSel")
-            found = true
-        }
-        j++
-    }
+    money.innerHTML = mon + "€"
 }
-
 
 gorro.addEventListener("click", function () {
     buy(gorro);
@@ -175,98 +168,81 @@ b4.addEventListener("click", function () {
     equipF(b4);
 })
 
-
-async function buy(obj) {
+async function buy(obj){
+    console.log("ola")
     //if tengo dinero lo compro
-    let objN = obj.id
-    let precio = await db.getItemPrice(objN)
-    if (mon >= precio && obj.className[7] == 'N') {
-        obj.classList.add("boxB")
-        obj.classList.remove("boxNB")
-        mon = mon - precio
-        money.innerHTML = mon + "€"
-        await db.setCoins(user, mon)
-        bought.push(objN)
-        console.log(bought)
-        await db.setBuy(user, bought)
-    }
+    obj.classList.add("boxB")
+    obj.classList.remove("boxNB")
+    if (!comprado.includes(obj.id)){comprado.push(obj.id)}
+    console.log(comprado)
+    db.setComprados(username, comprado)
 }
 
-async function equipH(obj) {
-    if (obj.className[7] != 'N') {
-        if (head == true) {
-            unequipH()
-        }
-        obj.classList.add("boxSel")
-        equipped.splice(0, 1, obj.id)
-        await db.setEquip(user, equipped)
-        head = true
+async function equipH(obj){
+    if(head==true){
+        unequipH()
     }
+    obj.classList.add("boxSel")
+    head=true
+    equipped.Cabeza = obj.id
+    await db.setEquipar(username, equipped)
 }
 
-async function equipB(obj) {
-    if (obj.className[7] != 'N') {
-        if (body == true) {
-            unequipB()
-        }
-        obj.classList.add("boxSel")
-        equipped.splice(1, 1, obj.id)
-        await db.setEquip(user, equipped)
-        body = true
+async function equipB(obj){
+    if(body==true){
+        unequipB()
     }
+    obj.classList.add("boxSel")
+    body=true
+    equipped.Cuerpo = obj.id
+    await db.setEquipar(username, equipped)
 }
 
-async function equipD(obj) {
-    if (obj.className[7] != 'N') {
-        if (d == true) {
-            unequipD()
-        }
-        obj.classList.add("boxSel")
-        equipped.splice(2, 1, obj.id)
-        await db.setEquip(user, equipped)
-        d = true
+async function equipD(obj){
+    if(d==true){
+        unequipD()
     }
+    obj.classList.add("boxSel")
+    d=true
+    equipped.Pies = obj.id
+    await db.setEquipar(username, equipped)
 }
 
-async function equipF(obj) {
-    if (obj.className[7] != 'N') {
-        if (face == true) {
-            unequipF()
-        }
-        obj.classList.add("boxSel")
-        equipped.splice(3, 1, obj.id)
-        await db.setEquip(user, equipped)
-        face = true
+async function equipF(obj){
+    if(face==true){
+        unequipF()
     }
+    obj.classList.add("boxSel")
+    face=true
 }
 
-function unequipH() {
-    head = false
-    gorro.classList.remove("boxSel")
+function unequipH(){
+    head=false
+    g.classList.remove("boxSel")
     naruto.classList.remove("boxSel")
     mario.classList.remove("boxSel")
     cumple.classList.remove("boxSel")
     b1.classList.remove("boxSel")
 }
 
-function unequipB() {
-    body = false
+function unequipB(){
+    body=false
     pajarita.classList.remove("boxSel")
     cadena.classList.remove("boxSel")
     betis.classList.remove("boxSel")
     traje.classList.remove("boxSel")
     b2.classList.remove("boxSel")
 }
-function unequipD() {
-    d = false
+function unequipD(){
+    d=false
     chancla.classList.remove("boxSel")
     gato.classList.remove("boxSel")
     amogus.classList.remove("boxSel")
     tortu.classList.remove("boxSel")
     b3.classList.remove("boxSel")
 }
-function unequipF() {
-    face = false
+function unequipF(){
+    face=false
     gafas.classList.remove("boxSel")
     b4.classList.remove("boxSel")
 }
@@ -283,8 +259,8 @@ async function eat(obj) {
         mon = mon - precio
         exp += itemExp
         money.innerHTML = mon + "€"
-        await db.setCoins(user, mon)
-        await db.setExp(user, exp)
+        await db.setCoins(username, mon)
+        await db.setExp(username, exp)
         setTimeout(() => { obj.classList.add("boxNB") }, 1000);
         setTimeout(() => { obj.classList.remove("boxB") }, 1000);
 
