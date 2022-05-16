@@ -394,22 +394,7 @@ export class DBManager {
 		return 1
 	}
 
-	/** El parámetro es el nombre del usuario, 
-* en caso de error devuelve -1
-* En caso de ser correcto devuelve un map con el elemento equipado en cada psoición.
-* 
-* Ejemplo de uso:
-* var equipped = await getEquipped("pepe");
-	*/
-	async getEquipped(usuario) {
-		const docRef = doc(DBManager.BD, "userInfo", usuario);
-		const docSnap = await getDoc(docRef);
-		let equipped = ""
-		if (docSnap.exists) {
-			equipped = await docSnap.get("Equipped")
-		}
-		return equipped
-	}
+
 	/** El parámetro es el nombre del usuario y una lista con el nombre de los objetos equipados, 
 * en caso de error devuelve un error
 * En caso de ser correcto actualiza el map de objetos equipados en la base de datos.
@@ -428,7 +413,22 @@ export class DBManager {
 		}
 		return 1
 	}
-
+	/** El parámetro es el nombre del usuario, 
+* en caso de error devuelve -1
+* En caso de ser correcto devuelve un map con el elemento equipado en cada psoición.
+* 
+* Ejemplo de uso:
+* var equipped = await getEquipped("pepe");
+	*/
+	async getEquipped(usuario) {
+		const docRef = doc(DBManager.BD, "userInfo", usuario);
+		const docSnap = await getDoc(docRef);
+		let equipped = ""
+		if (docSnap.exists) {
+			equipped = await docSnap.get("Equipped")
+		}
+		return equipped
+	}
 	/** El parámetro es el nombre de usuario, se asume que es correcto.
  * Igualmente en caso de error devuelve -1
  * En caso de ser correcto devuelve el map de los objetos que posee el usuario con un booleano que indica si lo tiene equipado.
@@ -437,13 +437,7 @@ export class DBManager {
  * var experiencia = await getExp("usuario1");
 	 */
 	async getInventory(usuario) {
-		const docRef = doc(DBManager.BD, "userInfo", usuario);
-		const docSnap = await getDoc(docRef);
-		let resultao = -1;
-		if (docSnap.exists()) {
-			resultao = await docSnap.get("Equipped");
-		}
-		return resultao;
+		return BD.getEquipped(usuario);
 	}
 
 	/*
