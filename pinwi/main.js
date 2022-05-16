@@ -22,7 +22,7 @@ var pet = sessionStorage.getItem("name")
 
 var mon = await db.getCoins(user)
 var exp = await db.getExp(user)
-
+//check level() ponerlo en esa funcion
 lvl = Math.trunc(exp / 10)
 exp = exp % 10;
 

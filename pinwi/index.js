@@ -1,3 +1,4 @@
+//Login Class
 import {DBManager} from './DBManager.js';
 
 const loginUsername = document.getElementById("loginUsername");
