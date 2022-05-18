@@ -80,7 +80,7 @@ function escogerPreguntaAleatoria() {
     n = 0;
   }
 
-  if (preguntas_hechas == 4) {
+  if (preguntas_correctas == 4) {
     let react
     switch (preguntas_correctas) {
       case 0: react = "Penoso."; break
