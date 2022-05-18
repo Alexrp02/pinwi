@@ -5,7 +5,7 @@ const items = document.getElementsByClassName("box")
 const db = new DBManager();
 db.init();
 
-var user = sessionStorage.getItem("username")
+var user = window.sessionStorage.getItem("username")
 var mon = await db.getCoins(user)
 var exp = await db.getExp(user)
 
@@ -66,7 +66,7 @@ for (let i = 0; i < items.length; i++) {
     }
 }
 
-async function buy(obj) {
+export async function buy(obj) {
     let objN = obj.id
     let precio = await db.getItemPrice(objN)
     if (mon >= precio && obj.className[7] == 'N') {
@@ -81,7 +81,7 @@ async function buy(obj) {
     }
 }
 
-async function equipH(obj) {
+export async function equipH(obj) {
     if (obj.className[7] != 'N') {
         if (head == true) {
             unequipH()
@@ -94,7 +94,7 @@ async function equipH(obj) {
     }
 }
 
-async function equipB(obj) {
+export async function equipB(obj) {
     if (obj.className[7] != 'N') {
         if (body == true) {
             unequipB()
@@ -107,7 +107,7 @@ async function equipB(obj) {
     }
 }
 
-async function equipD(obj) {
+export async function equipD(obj) {
     if (obj.className[7] != 'N') {
         if (d == true) {
             unequipD()
