@@ -66,7 +66,7 @@ for (let i = 0; i < items.length; i++) {
     }
 }
 
-async function buy(obj) {
+export async function buy(obj) {
     let objN = obj.id
     let precio = await db.getItemPrice(objN)
     if (mon >= precio && obj.className[7] == 'N') {
