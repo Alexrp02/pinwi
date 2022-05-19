@@ -12,5 +12,12 @@
   "type": "module",
   "devDependencies": {
     "jest": "^28.1.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "verbose": true
+  },
+  "dependencies": {
+    "jest-environment-jsdom": "^28.1.0"
   }
 }

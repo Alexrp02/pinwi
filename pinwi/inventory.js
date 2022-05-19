@@ -66,7 +66,7 @@ for (let i = 0; i < items.length; i++) {
     }
 }
 
-export async function buy(obj) {
+async function buy(obj) {
     let objN = obj.id
     let precio = await db.getItemPrice(objN)
     if (mon >= precio && obj.className[7] == 'N') {
@@ -81,7 +81,7 @@ export async function buy(obj) {
     }
 }
 
-export async function equipH(obj) {
+async function equipH(obj) {
     if (obj.className[7] != 'N') {
         if (head == true) {
             unequipH()
@@ -94,7 +94,7 @@ export async function equipH(obj) {
     }
 }
 
-export async function equipB(obj) {
+async function equipB(obj) {
     if (obj.className[7] != 'N') {
         if (body == true) {
             unequipB()
@@ -107,7 +107,7 @@ export async function equipB(obj) {
     }
 }
 
-export async function equipD(obj) {
+async function equipD(obj) {
     if (obj.className[7] != 'N') {
         if (d == true) {
             unequipD()
@@ -176,3 +176,4 @@ async function eat(obj) {
         setTimeout(() => { obj.classList.remove("boxB") }, 1000);
     }
 }
+exports.buy = buy;
