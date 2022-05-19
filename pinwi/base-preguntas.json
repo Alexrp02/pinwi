@@ -8037,7 +8037,9 @@
         "respuesta": "Al Pacino",
         "incorrecta1": "John Cazale",
         "incorrecta2": "Marlon Brando",
-        "incorrecta3": "Robert De Niro\r"
+        "incorrecta3": "Robert De Niro\r",
+        "imagen": "https://i.ibb.co/0DxHxGm/Elpadrino.webp"
+        
     },
     {
         "categoria": "Entretenimiento",
@@ -9191,7 +9193,8 @@
         "respuesta": "Ingles",
         "incorrecta1": "Colombiano",
         "incorrecta2": "Venezolano",
-        "incorrecta3": "Peruano\r"
+        "incorrecta3": "Peruano\r",
+        "imagen": "https://i.ibb.co/9vmXWnT/newton-joven.jpg"
     },
     {
         "categoria": "Matemática",
