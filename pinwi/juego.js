@@ -1,4 +1,4 @@
-import { DBManager } from './DBManager.js';
+import  DBManager  from './DBManager.js';
 let preguntas_aleatorias = true;
 let mostrar_pantalla_juego_términado = true;
 let base_preguntas
@@ -80,7 +80,7 @@ function escogerPreguntaAleatoria() {
     n = 0;
   }
 
-  if (preguntas_correctas == 4) {
+  if (preguntas_hechas == 4) {
     let react
     switch (preguntas_correctas) {
       case 0: react = "Penoso."; break

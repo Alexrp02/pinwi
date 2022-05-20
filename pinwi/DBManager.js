@@ -1,8 +1,8 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-app.js';
 import {
 	getFirestore, doc, setDoc, query, addDoc, updateDoc,
 	where, collection, getDoc, getDocs
-} from "firebase/firestore";
+} from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-firestore.js';
 
 /*
 IMPORTANTE
@@ -483,7 +483,7 @@ export default class DBManager {
 
 	async setFecha(usuario, fecha) {
 		try {
-			setDoc(doc(DBManager.BD, "userInfo", usuario),
+			updateDoc(doc(DBManager.BD, "userInfo", usuario),
 				{
 					UltimoJuego: fecha
 				})
@@ -506,5 +506,6 @@ export default class DBManager {
 	}
 
 }
-exports.DBManager = DBManager;
-module.exports = DBManager
+// exports.DBManager = DBManager;
+// module.exports = DBManager 
+//Descomentar para pruebas

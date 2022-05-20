@@ -1,4 +1,4 @@
-import { DBManager } from './DBManager.js';
+import DBManager  from './DBManager.js';
 
 const items = document.getElementsByClassName("box")
 

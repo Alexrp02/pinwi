@@ -1,4 +1,4 @@
-import { DBManager } from './DBManager.js';
+import  DBManager  from './DBManager.js';
 
 const Pinwi = document.getElementById("pinwi")
 const Name = document.getElementById("name")
