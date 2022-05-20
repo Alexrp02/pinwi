@@ -1,9 +1,8 @@
-import {DBManager} from './DBManager.js';
+import { DBManager } from './DBManager.js';
 let preguntas_aleatorias = true;
 let mostrar_pantalla_juego_términado = true;
 let base_preguntas
 let interprete_bp
-
 const db = new DBManager()
 db.init()
 
@@ -18,45 +17,47 @@ let btn4 = document.getElementById("btn4")
 
 window.onload = async function () {
 
-    const db = new DBManager();
-    db.init();
+  const db = new DBManager();
+  db.init();
 
-    const ultimaFecha = await db.getFecha(username)
-    console.log(ultimaFecha)
-    if (ultimaFecha == date.toLocaleDateString()){
-        document.getElementById("contenedor").classList.add("hidden")
-        swal.fire({
-            title: "Prueba mañana!",
-            text:
-            "Solo está permitido un juego por día, vuelve mañana!",
-            icon: "error"
-        })
-        .then(()=>{
-            document.location.href = "./main.html";
-        });
-    }else{
+  const ultimaFecha = await db.getFecha(username)
+  console.log(ultimaFecha)
+  if (ultimaFecha == date.toLocaleDateString()) {
+    document.getElementById("contenedor").classList.add("hidden")
+    swal.fire({
+      title: "¡Prueba mañana!",
+      text:
+        "Ya has intentado jugar hoy, ¡vuelve mañana!",
+      icon: "error",
+      confirmButtonText: "Vale :(",
+    })
+      .then(() => {
+        document.location.href = "./main.html";
+      });
+  } else {
 
+    await db.setFecha(username, date.toLocaleDateString())
+    base_preguntas = readText("./base-preguntas.json");
+    interprete_bp = JSON.parse(base_preguntas);
+    escogerPreguntaAleatoria();
 
-  base_preguntas = readText("./base-preguntas.json");
-  interprete_bp = JSON.parse(base_preguntas);
-  escogerPreguntaAleatoria();
-
-  btn1.addEventListener("click", function(){
-    oprimir_btn(0)
-  })
-  btn2.addEventListener("click", function(){
-    oprimir_btn(1)
-  })
-  btn3.addEventListener("click", function(){
-    oprimir_btn(2)
-  })
-  btn4.addEventListener("click", function(){
-    oprimir_btn(3)
-  })
-    }
-  const w = await db.setFecha(username, date.toLocaleDateString())
+    btn1.addEventListener("click", function () {
+      oprimir_btn(0)
+    })
+    btn2.addEventListener("click", function () {
+      oprimir_btn(1)
+    })
+    btn3.addEventListener("click", function () {
+      oprimir_btn(2)
+    })
+    btn4.addEventListener("click", function () {
+      oprimir_btn(3)
+    })
+  }
 };
 
+let mon = await db.getCoins(username)
+money.innerHTML = mon + "€"
 
 let pregunta;
 let posibles_respuestas;
@@ -79,16 +80,25 @@ function escogerPreguntaAleatoria() {
     n = 0;
   }
 
-  if (preguntas_hechas == 4) {
+  if (preguntas_correctas == 4) {
+    let react
+    switch (preguntas_correctas) {
+      case 0: react = "Penoso."; break
+      case 1: react = "Regulero..."; break
+      case 2: react = "Aprobado raspado"; break
+      case 3: react = "¡Bien hecho!"
+      default: react = "¡¡Perfecto, vaya máquina!!"; break
+    }
     //Aquí es donde el juego se reinicia
     if (mostrar_pantalla_juego_términado) {
-        //Libreria sweet alert2
+      //Libreria sweet alert2
       swal.fire({
-        title: "Juego finalizado",
+        title: "¡Juego finalizado!",
         text:
           "Puntuación: " + preguntas_correctas + "/" + (preguntas_hechas),
-        icon: "success"
-      }).then(()=>{
+        icon: "success",
+        confirmButtonText: react
+      }).then(() => {
         document.location.href = "./main.html";
       });
     }
@@ -99,8 +109,8 @@ function escogerPreguntaAleatoria() {
     if (n >= interprete_bp.length) {
       n = 0;
     }
-    
-    
+
+
   }
   npreguntas.push(n);
   preguntas_hechas++;
@@ -152,7 +162,7 @@ function desordenarRespuestas(pregunta) {
 
 let suspender_botones = false;
 
-function oprimir_btn(i) {
+async function oprimir_btn(i) {
   if (suspender_botones) {
     return;
   }
@@ -160,6 +170,9 @@ function oprimir_btn(i) {
   if (posibles_respuestas[i] == pregunta.respuesta) {
     preguntas_correctas++;
     btn_correspondiente[i].style.background = "lightgreen";
+    mon++
+    money.innerHTML = mon + "€"
+    await db.setCoins(username, mon)
   } else {
     btn_correspondiente[i].style.background = "pink";
   }
@@ -172,8 +185,8 @@ function oprimir_btn(i) {
   setTimeout(() => {
     // if (preguntas_hechas<=1)
     // {
-        reiniciar();
-        suspender_botones = false;
+    reiniciar();
+    suspender_botones = false;
     // }else{
     //     finalizar_juego()
     //     suspender_botones = false;
@@ -208,6 +221,5 @@ function readText(ruta_local) {
   }
   return texto;
 }
-
 
 
