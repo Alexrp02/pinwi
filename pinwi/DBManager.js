@@ -1,8 +1,8 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-app.js'; //Cambiar por 'firebase/app' para pruebas
+import { initializeApp } from 'firebase/app'; //Cambiar por 'firebase/app' para pruebas https://www.gstatic.com/firebasejs/9.8.0/firebase-app.js
 import {
 	getFirestore, doc, setDoc, query, addDoc, updateDoc,
 	where, collection, getDoc, getDocs
-} from 'https://www.gstatic.com/firebasejs/9.8.0/firebase-firestore.js'; //Cambiar por 'firebase/firestore' para pruebas
+} from 'firebase/firestore'; //Cambiar por 'firebase/firestore' para pruebas https://www.gstatic.com/firebasejs/9.8.0/firebase-firestore.js
 
 /*
 IMPORTANTE
@@ -506,6 +506,6 @@ export default class DBManager {
 	}
 
 }
-// exports.DBManager = DBManager;
-// module.exports = DBManager 
+exports.DBManager = DBManager;
+module.exports = DBManager 
 //Descomentar para pruebas

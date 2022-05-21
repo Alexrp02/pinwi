@@ -32,7 +32,7 @@ test('Logear un usuario no existente en la base de datos', async () => {
 })
 
 test('Logear un usuario ya existente, con contraseña incorrecta', async () => {
-    expect(await db.loginUser("alex", "alex")).toBe(0)
+    expect(await db.loginUser("alex", "contraseñaincorrecta")).toBe(0)
 })
 
 test('Recibir experiencia del usuario Prueba', async () => {
