@@ -5884,7 +5884,8 @@
         "respuesta": "Richard Petty",
         "incorrecta1": "Fernando Alonso",
         "incorrecta2": "Sebastian Vettel",
-        "incorrecta3": "Mark Webber\r"
+        "incorrecta3": "Mark Webber\r",
+        "imagen": "https://i.ibb.co/bsFqJwC/2022-Filmingday12.jpg"
     },
     {
         "categoria": "Deportes",
@@ -6600,7 +6601,7 @@
     },
     {
         "categoria": "Deportes",
-        "pregunta": "¿Dónde serán los Juegos Olímpicos en 2016?",
+        "pregunta": "¿Dónde fueron los Juegos Olímpicos en 2016?",
         "respuesta": "Río De Janeiro ",
         "incorrecta1": "Lyon",
         "incorrecta2": "Sevilla",
@@ -9192,7 +9193,7 @@
         "pregunta": "Sir Isaac Newton, nacionalidad",
         "respuesta": "Ingles",
         "incorrecta1": "Colombiano",
-        "incorrecta2": "Venezolano",
+        "incorrecta2": "Aleman",
         "incorrecta3": "Peruano\r",
         "imagen": "https://i.ibb.co/9vmXWnT/newton-joven.jpg"
     },
@@ -9202,7 +9203,7 @@
         "respuesta": "Descubrió el calculo en el siglo XVII",
         "incorrecta1": "Creó la geometría analítica en el siglo XVII. ",
         "incorrecta2": "Inventó el topología algebraica en el siglo XIX",
-        "incorrecta3": "Comia mucho mani\r"
+        "incorrecta3": "Comia mucha manzana\r"
     },
     {
         "categoria": "Matemática",
