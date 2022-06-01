@@ -1,34 +1,111 @@
-import DBManager  from './DBManager.js';
+// import DBManager  from './DBManager.js';
 
 const items = document.getElementsByClassName("box")
 
-const db = new DBManager();
-db.init();
+// const db = new DBManager();
+// db.init();
 
 var user = window.sessionStorage.getItem("username")
-var mon = await db.getCoins(user)
-var exp = await db.getExp(user)
+var mon 
+var exp 
+var bought
+var equipped
 
-money.innerHTML = mon + "€"
+
 
 var head = true
 var body = true
 var face = true
 var d = true
 
-var bought = await db.getBuy(user)
+window.onload = async () => {
+    exp = await db.getExp(user)
+    mon = await db.getCoins(user)
+
+    money.innerHTML = mon + "€"
+
+    bought = await db.getBuy(user)
 bought.forEach(element => {
     console.log(element)
     document.getElementById(element).classList.add("boxB")
     document.getElementById(element).classList.remove("boxNB")
 });
 
-var equipped = await db.getEquipped(user)
-console.log(equipped)
-for (var Parte in equipped){
-    document.getElementById(equipped[Parte]).classList.add("boxSel")
+    equipped = await db.getEquipped(user)
+    console.log(equipped)
+    for (var Parte in equipped){
+        document.getElementById(equipped[Parte]).classList.add("boxSel")
 }
 
+for (let i = 0; i < items.length; i++) {
+    console.log(items[i])
+    if (i == 15 || i == 16 || i == 17) {
+        items[i].addEventListener("click", function () {
+            console.log(items[i].classList);
+            eat(items[i]);
+        });      
+    }else{
+
+        items[i].addEventListener("click", function () {
+            buy(items[i]);
+        });
+        if (items[i].classList[1] == 'h' || items[i].classList[2] == 'h') {
+            items[i].addEventListener("click", function () {
+                equipH(items[i]);
+            });
+        }
+        if (items[i].classList[1] == 'b' || items[i].classList[2] == 'b') {
+            items[i].addEventListener("click", function () {
+                equipB(items[i]);
+            });
+        }
+        if (items[i].classList[1] == 'd' || items[i].classList[2] == 'd') {
+            items[i].addEventListener("click", function () {
+                equipD(items[i]);
+            });
+        }
+        if (items[i].classList[1] == 'f' || items[i].classList[2] == 'f') {
+            items[i].addEventListener("click", function () {
+                equipF(items[i]);
+            });
+        }
+
+    }
+}for (let i = 0; i < items.length; i++) {
+    console.log(items[i])
+    if (i == 15 || i == 16 || i == 17) {
+        items[i].addEventListener("click", function () {
+            console.log(items[i].classList);
+            eat(items[i]);
+        });      
+    }else{
+
+        items[i].addEventListener("click", function () {
+            buy(items[i]);
+        });
+        if (items[i].classList[1] == 'h' || items[i].classList[2] == 'h') {
+            items[i].addEventListener("click", function () {
+                equipH(items[i]);
+            });
+        }
+        if (items[i].classList[1] == 'b' || items[i].classList[2] == 'b') {
+            items[i].addEventListener("click", function () {
+                equipB(items[i]);
+            });
+        }
+        if (items[i].classList[1] == 'd' || items[i].classList[2] == 'd') {
+            items[i].addEventListener("click", function () {
+                equipD(items[i]);
+            });
+        }
+        if (items[i].classList[1] == 'f' || items[i].classList[2] == 'f') {
+            items[i].addEventListener("click", function () {
+                equipF(items[i]);
+            });
+        }
+
+    }
+}
 
 for (let i = 0; i < items.length; i++) {
     console.log(items[i])
@@ -66,19 +143,31 @@ for (let i = 0; i < items.length; i++) {
     }
 }
 
-export async function buy(obj) {
-    let objN = obj.id
-    let precio = await db.getItemPrice(objN)
-    if (mon >= precio && obj.className[7] == 'N') {
-        obj.classList.add("boxB")
-        obj.classList.remove("boxNB")
-        mon = mon - precio
-        money.innerHTML = mon + "€"
-        await db.setCoins(user, mon)
-        bought.push(objN)
-        console.log(bought)
-        await db.setBuy(user, bought)
-    }
+}
+
+
+
+const functions = {
+    
+}
+
+
+
+
+async function buy(obj) {
+    // let objN = obj.id
+    // let precio = await db.getItemPrice(objN)
+    // if (mon >= precio && obj.className[7] == 'N') {
+    //     obj.classList.add("boxB")
+    //     obj.classList.remove("boxNB")
+    //     mon = mon - precio
+    //     money.innerHTML = mon + "€"
+    //     await db.setCoins(user, mon)
+    //     bought.push(objN)
+    //     console.log(bought)
+    //     await db.setBuy(user, bought)
+    // }
+    return 2
 }
 
 async function equipH(obj) {
@@ -161,19 +250,20 @@ function unequipF() {
 }
 
 async function eat(obj) {
-    let objN = obj.id
-    let precio = await db.getItemPrice(objN)
-    let itemExp = await db.getItemExp(objN)
-    if (mon >= precio && obj.className[7] == 'N') {
-        obj.classList.add("boxB")
-        obj.classList.remove("boxNB")
-        mon = mon - precio
-        exp += itemExp
-        money.innerHTML = mon + "€"
-        await db.setCoins(user, mon)
-        await db.setExp(user, exp)
-        setTimeout(() => { obj.classList.add("boxNB") }, 1000);
-        setTimeout(() => { obj.classList.remove("boxB") }, 1000);
-    }
+    // let objN = obj.id
+    // let precio = await db.getItemPrice(objN)
+    // let itemExp = await db.getItemExp(objN)
+    // if (mon >= precio && obj.className[7] == 'N') {
+    //     obj.classList.add("boxB")
+    //     obj.classList.remove("boxNB")
+    //     mon = mon - precio
+    //     exp += itemExp
+    //     money.innerHTML = mon + "€"
+    //     await db.setCoins(user, mon)
+    //     await db.setExp(user, exp)
+    //     setTimeout(() => { obj.classList.add("boxNB") }, 1000);
+    //     setTimeout(() => { obj.classList.remove("boxB") }, 1000);
+    // }
+    return 2
 }
-exports.buy = buy;
+module.exports = {buy, eat}

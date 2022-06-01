@@ -1,7 +1,6 @@
 //Hemos creado un usuario llamado 'Prueba' para poder probar todos los métodos de la base de datos
 
 import  DBManager  from './DBManager.js';
-const DB = require('./DBManager')
 
 let db ;
 
