@@ -4,6 +4,8 @@
 // import {buy,eat} from "./inventory.js"; 
 
 const {buy, eat} = require("./inventory.js")
+const db = require ("./DBManagerMock.js")
+
 // const eat = require("./inventory.js")
 
 // beforeEach(async ()=>{
@@ -20,6 +22,7 @@ test("buy añade objeto", async () => {
     let obj = {id: "gato"};//identificamos el objeto que deseamos comprar de la base de datos
     // let moneyOld =await DBManager.BD.getCoins("alex");
     // await buy(obj); 
+    let value = await db.loginUser("pepe", "pepe") ;
     expect(await buy(obj)).toBe(2)
     // expect(await DBManager.BD.getBuy("alex")).toContain("gato"); //Esperamos que buy() haya añadido el objeto al inventario de usuario
     // expect(await DBManager.BD.getCoins("alex")).toEquals(moneyOld-(await DBManager.BD.getItemPrice("gato"))); //Esperamos que buy() haya modificado el dinero de usuario(decrementandolo de acuerdo al precio del producto)
