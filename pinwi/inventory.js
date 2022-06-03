@@ -1,11 +1,16 @@
 // import DBManager  from './DBManager.js';
 
+let DBManager = require('./DBManagerMock')
+
+let db = DBManager ;
+
 const items = document.getElementsByClassName("box")
 
 // const db = new DBManager();
 // db.init();
 
-var user = window.sessionStorage.getItem("username")
+// var user = window.sessionStorage.getItem("username")
+var user = 'Prueba'
 var mon 
 var exp 
 var bought
@@ -155,19 +160,20 @@ const functions = {
 
 
 async function buy(obj) {
-    // let objN = obj.id
-    // let precio = await db.getItemPrice(objN)
-    // if (mon >= precio && obj.className[7] == 'N') {
-    //     obj.classList.add("boxB")
-    //     obj.classList.remove("boxNB")
-    //     mon = mon - precio
-    //     money.innerHTML = mon + "€"
-    //     await db.setCoins(user, mon)
-    //     bought.push(objN)
-    //     console.log(bought)
-    //     await db.setBuy(user, bought)
-    // }
-    return 2
+    let objN = obj.id
+    let precio = await db.getItemPrice(objN)
+    mon = await db.getCoins(user)
+    if (mon >= precio && obj.className[7] == 'N') {
+        // obj.classList.add("boxB")
+        // obj.classList.remove("boxNB")
+        mon = mon - precio
+        // money.innerHTML = mon + "€"
+        await db.setCoins(user, mon)
+        bought = await db.getBuy(user)
+        bought.push(objN)
+        console.log(bought)
+        await db.setBuy(user, bought)
+    }
 }
 
 async function equipH(obj) {
@@ -266,4 +272,4 @@ async function eat(obj) {
     // }
     return 2
 }
-module.exports = {buy, eat}
+module.exports = {buy, eat, db}

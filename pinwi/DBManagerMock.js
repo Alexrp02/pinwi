@@ -11,6 +11,8 @@ PARA QUE FUNCIONE DBMANAGER NECESITA:
 */
 
 class DBManager {
+	database = new Map ();
+	objetos = new Map() ;
 	static BD;
 	/**
 	 * Es el método inicial de la BD. Sirve para inicializarla, hace falta llamarlo antes de hacer cualquier tipo de operación.
@@ -31,7 +33,26 @@ class DBManager {
 	 * 
 	 */
 
-
+	async init() {
+		this.objetos.set('gorro', {
+			'Price':2 
+		})
+		this.database.set('Prueba', {
+			'Password': 'Prueba',
+			'petName' : 'PruebaPet',
+			'Buy': [],
+			'Equipped' : {
+				'Body':'b2',
+				'Down':'b3',
+				'Face':'b4',
+				'Head':'b1'
+			},
+			'Exp':0,
+			'coins':0,
+			'user':'Prueba',
+			'UltimoJuego':'00/00/0000'
+		})
+	}
 	/** El parámetro es el nombre de usuario, se asume que es correcto.
  * Igualmente en caso de error devuelve -1
  * En caso de ser correcto devuelve el valor de las monedas del usuario.
@@ -40,8 +61,7 @@ class DBManager {
  * var monedas = await getCoins("usuario1");
 	 */
 	async getCoins(usuario) {
-		
-		return 2;
+		return this.database.get(usuario).coins;
 	}
 
 	/** El parámetro es el nombre de usuario y el dinero actualizado, se asume que es correcto.
@@ -52,7 +72,8 @@ class DBManager {
  * await getCoins("usuario1", money);
 	 */
 	async setCoins(usuario, money) {
-		
+		this.database.get(usuario).coins = money
+
 		return 1
 	}
 
@@ -64,6 +85,22 @@ class DBManager {
 	 */
 	registerUser(usuario, contra, petname) {
 		
+		this.database.set(usuario, {
+			'Password': contra,
+			'petName' : petname,
+			'Buy': [],
+			'Equipped' : {
+				'Body':'b2',
+				'Down':'b3',
+				'Face':'b4',
+				'Head':'b1'
+			},
+			'Exp':0,
+			'coins':0,
+			'user':usuario,
+			'UltimoJuego':'00/00/0000'
+		})
+
 		return 1;
 	};
 	/**
@@ -83,9 +120,15 @@ class DBManager {
 	 */
 	async loginUser(usuario, contra) {
 		
-		return 1;
-		//console.log(docSnap);
-
+		if(!this.database.has(usuario)){
+			return -1
+		}else{
+			if(this.database.get(usuario).Password !== contra){
+				return 0;
+			}else{
+				return 1;
+			}
+		}
 	}
 
 
@@ -97,14 +140,8 @@ class DBManager {
 	 * var experiencia = await getExp("usuario1");
 	 */
 	async getExp(usuario) {
-		const docRef = doc(DBManager.BD, "userInfo", usuario);
-		const docSnap = await getDoc(docRef);
-		let resultao = -1;
-		if (docSnap.exists()) {
-			resultao = await docSnap.get("Exp");
-			//console.log(resultao);
-		}
-		return resultao;
+		
+		return this.database.get(usuario).Exp;
 	}
 
 	/** El parámetro es el nombre de usuario y la exp actualizada, se asume que es correcto.
@@ -115,15 +152,7 @@ class DBManager {
 * await getCoins("usuario1", exp);
  */
 	async setExp(usuario, experiencia) {
-		try {
-			updateDoc(doc(DBManager.BD, "userInfo", usuario),
-				{
-					Exp: experiencia
-				})
-		} catch (e) {
-			console.error("Error saving exp: ", e);
-			return -1
-		}
+		this.database.get(usuario).Exp = experiencia;
 		return 1
 	}
 
@@ -135,23 +164,8 @@ class DBManager {
  * var equipados = await getItemsEquipped("usuario1");
 	 */
 	async getItemsEquipped(usuario) {
-		const docRef = doc(DBManager.BD, "userInfo", usuario);
-		const docSnap = await getDoc(docRef);
-		let resultao = -1;
-		if (docSnap.exists()) {
-			resultao = await docSnap.get("Equipped");
-			let arrayresultao = [];
-			//console.log(resultao);
-			for (let i = 0; i < Object.getOwnPropertyNames(resultao).length; i++) {
-				//console.log(resultao);
-				if (resultao[Object.getOwnPropertyNames(resultao)[i]]) {
-					arrayresultao.push(Object.getOwnPropertyNames(resultao)[i]);
-				}
-
-			}
-			resultao = arrayresultao;
-		}
-		return resultao;
+		
+		return this.database.get(usuario).Equipped;
 	}
 
 	/** El parámetro es el nombre del item, 
@@ -162,13 +176,7 @@ class DBManager {
 	* var precio = await getItemPrice("ternera");
 		*/
 	async getItemPrice(nombreItem) {
-		const docRef = doc(DBManager.BD, "shop", nombreItem);
-		const docSnap = await getDoc(docRef);
-		let resultao = -1;
-		if (docSnap.exists()) {
-			resultao = await docSnap.get("Price");
-		}
-		return resultao;
+		return this.objetos.get(nombreItem).Price
 	}
 
 	/** El parámetro es el nombre del item, 
@@ -266,13 +274,8 @@ class DBManager {
 * var bought = await getBuy("pepe");
 	*/
 	async getBuy(usuario) {
-		const docRef = doc(DBManager.BD, "userInfo", usuario);
-		const docSnap = await getDoc(docRef);
-		let resultao = -1;
-		if (docSnap.exists()) {
-			resultao = await docSnap.get("Buy");
-		}
-		return resultao;
+		
+		return this.database.get(usuario).Buy;
 	}
 
 	/** El parámetro es el nombre del usuario y una lista con el nombre de los objetos comprados, 
@@ -283,17 +286,7 @@ class DBManager {
 * await setBuy("pepe", bought);
 	*/
 	async setBuy(usuario, buy) {
-		try {
-			await updateDoc(doc(DBManager.BD, "userInfo", usuario),
-				{
-					Buy: buy
-				})
-		return 1
-
-		} catch (e) {
-			console.error("Error changing buy: ", e);
-			return -1
-		}
+		this.database.get(usuario).Buy = buy
 	}
 
 
@@ -305,17 +298,7 @@ class DBManager {
 * await setEquip("pepe", equipped);
 	*/
 	async setEquip(usuario, equip) {
-		try {
-			await updateDoc(doc(DBManager.BD, "userInfo", usuario),
-				{
-					Equipped: equip
-				})
-				return 1
-		} catch (e) {
-			console.error("Error changing equip: ", e);
-			return -1
-		}
-		return 1
+		this.database.get(usuario).Equipped = equip
 	}
 	/** El parámetro es el nombre del usuario, 
 * en caso de error devuelve -1
@@ -325,14 +308,7 @@ class DBManager {
 * var equipped = await getEquipped("pepe");
 	*/
 	async getEquipped(usuario) {
-		const docRef = doc(DBManager.BD, "userInfo", usuario);
-		const docSnap = await getDoc(docRef);
-		let equipped = ""
-		if (docSnap.exists()) {
-			equipped = await docSnap.get("Equipped")
-			return equipped
-		}
-		return -1
+		return this.database.get(usuario).Equipped
 	}
 	/** El parámetro es el nombre de usuario, se asume que es correcto.
  * Igualmente en caso de error devuelve -1
@@ -352,56 +328,28 @@ class DBManager {
 	Si por algún casual el usuario no tiene nombre de mascota, este devolverá undefined.
 	*/
 	async getPetName(usuario) {
-		const docRef = doc(DBManager.BD, "userInfo", usuario);
-		const docSnap = await getDoc(docRef);
-		let name = ""
-		if (docSnap.exists()) {
-			name = await docSnap.get("petName")
-		}
-		return name
+		
+		return this.database.get(usuario).petName
 	}
 
 
 	async setPetName(usuario, petname) {
-		try {
-			updateDoc(doc(DBManager.BD, "userInfo", usuario),
-				{
-					petName: petname
-				})
-		} catch (e) {
-			console.error("Error changing the pet name: ", e);
-			return -1
-		}
-		return 1
+		this.database.get(usuario).petName = petname
 	}
 
 
 
 	async setFecha(usuario, fecha) {
-		try {
-			updateDoc(doc(DBManager.BD, "userInfo", usuario),
-				{
-					UltimoJuego: fecha
-				})
-		} catch (e) {
-			console.error("Error changing the pet name: ", e);
-			return -1
-		}
-		return 1
+		
+		this.database.get(usuario).UltimoJuego = fecha
 	}
 
 
 	async getFecha(usuario) {
-		const docRef = doc(DBManager.BD, "userInfo", usuario);
-		const docSnap = await getDoc(docRef);
-		let fecha = ""
-		if (docSnap.exists()) {
-			fecha = docSnap.get("UltimoJuego")
-		}
-		return fecha
+		return this.database.get(usuario).UltimoJuego
 	}
 
 }
-const db = new DBManager ;
+let db = new DBManager ;
 module.exports = db 
 //Descomentar para pruebas
