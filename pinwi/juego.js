@@ -1,3 +1,5 @@
+
+
 import { DBManager } from './DBManager.js';
 let preguntas_aleatorias = true;
 let mostrar_pantalla_juego_términado = true;
@@ -39,7 +41,7 @@ window.onload = async function () {
     await db.setFecha(username, date.toLocaleDateString())
     base_preguntas = readText("./base-preguntas.json");
     interprete_bp = JSON.parse(base_preguntas);
-    escogerPreguntaAleatoria();
+    escogerPreguntaAleatoria(preguntas_correctas);
 
     btn1.addEventListener("click", function () {
       oprimir_btn(0)
@@ -72,7 +74,7 @@ let npreguntas = [];
 let preguntas_hechas = 0;
 let preguntas_correctas = 0;
 
-function escogerPreguntaAleatoria() {
+function escogerPreguntaAleatoria(preguntasCorrectas) {
   let n;
   if (preguntas_aleatorias) {
     n = Math.floor(Math.random() * interprete_bp.length);
@@ -80,14 +82,19 @@ function escogerPreguntaAleatoria() {
     n = 0;
   }
 
-  if (preguntas_correctas == 4) {
+  if (preguntasCorrectas == 4) {
     let react
-    switch (preguntas_correctas) {
-      case 0: react = "Penoso."; break
-      case 1: react = "Regulero..."; break
-      case 2: react = "Aprobado raspado"; break
+    switch (preguntasCorrectas) {
+      case 0: react = "Penoso."; 
+      console.log("Penoso."); break
+      case 1: react = "Regulero..."; 
+      console.log("Regulero..."); break
+      case 2: react = "Aprobado raspado"; 
+      console.log("Aprobado raspado"); break
       case 3: react = "¡Bien hecho!"
-      default: react = "¡¡Perfecto, vaya máquina!!"; break
+      console.log("¡Bien hecho!"); break
+      default: react = "¡¡Perfecto, vaya máquina!!"; 
+      console.log("¡¡Perfecto, vaya máquina!!"); break
     }
     //Aquí es donde el juego se reinicia
     if (mostrar_pantalla_juego_términado) {
@@ -95,7 +102,7 @@ function escogerPreguntaAleatoria() {
       swal.fire({
         title: "¡Juego finalizado!",
         text:
-          "Puntuación: " + preguntas_correctas + "/" + (preguntas_hechas),
+          "Puntuación: " + preguntasCorrectas + "/" + (preguntas_hechas),
         icon: "success",
         confirmButtonText: react
       }).then(() => {
@@ -103,6 +110,7 @@ function escogerPreguntaAleatoria() {
       });
     }
     npreguntas = [];
+    preguntas_correctas = preguntasCorrectas
   }
   while (npreguntas.includes(n)) {
     n++;
@@ -221,5 +229,3 @@ function readText(ruta_local) {
   }
   return texto;
 }
-
-
