@@ -26,6 +26,7 @@ var d = true
 window.onload = async () => {
     exp = await db.getExp(user)
     mon = await db.getCoins(user)
+    
 
     money.innerHTML = mon + "€"
 
@@ -177,7 +178,9 @@ async function buy(obj) {
 }
 
 async function equipH(obj) {
+    console.log("Entra");
     if (obj.className[7] != 'N') {
+        console.log("Entrao");
         if (head == true) {
             unequipH()
         }
@@ -273,4 +276,4 @@ async function eat(obj) {
     }
     return 2
 }
-module.exports = {buy, eat, db}
+module.exports = {buy, eat, db, equipH, equipB, equipD, equipF, unequipH, unequipB, unequipF,unequipD}

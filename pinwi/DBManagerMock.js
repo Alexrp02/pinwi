@@ -35,22 +35,22 @@ class DBManager {
 
 	async init() {
 		this.objetos.set('gorro', {
-			Price:2
+			'Price':2
 		})
 		this.objetos.set('burger', {
-			EXP: 7,
-			Price: 3,
+			'EXP': 7,
+			'Price': 3,
 			
 		})
 		this.database.set('Prueba', {
 			'Password': 'Prueba',
 			'petName' : 'PruebaPet',
 			'Buy': [],
-			'Equipped' : {
+			Equipped : {
 				'Body':'b2',
 				'Down':'b3',
 				'Face':'b4',
-				'Head':'b1'
+				'Head':'b1',
 			},
 			'Exp':0,
 			'coins':0,

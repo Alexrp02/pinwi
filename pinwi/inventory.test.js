@@ -3,24 +3,12 @@
 // import{DBManager} from "./DBManager.js";
 // import {buy,eat} from "./inventory.js"; 
 
-const {buy, eat, db} = require("./inventory.js")
+const { JS_EXT_TO_TREAT_AS_ESM } = require("ts-jest")
+const {buy, eat, db, equipH, equipB, equipD, equipF, unequipH, unequipB, unequipF,unequipD} = require("./inventory.js")
 let database = db
-
-// const eat = require("./inventory.js")
-
-// beforeEach(async ()=>{
-//   window.sessionStorage.clear();
-//   window.sessionStorage.setItem("name", "alex");
-//   //Inicializamos al usuario alex con los siguientes parametros
-//   await DBManager.BD.setCoins("alex",55);
-//   await DBManager.BD.setBuy("alex",[]);
-//   await DBManager.BD.setExp("alex",0);
-//   await DBManager.BD.setEquip("alex", []);
-// })
 
 beforeAll(async ()=>{
   database.init()
-  window.sessionStorage.setItem('username', 'Prueba')
   window.sessionStorage.setItem('user', 'Prueba')
   database.setCoins('Prueba', 999)
 })
@@ -46,8 +34,6 @@ test("buy añade objeto", async () => {
     let itemPrice = await database.getItemPrice('gorro')
     expect(await database.getBuy('Prueba')).toContain('gorro')
     expect(await database.getCoins('Prueba')).toBe(moneyOld-itemPrice)
-    // expect(await DBManager.BD.getBuy("alex")).toContain("gato"); //Esperamos que buy() haya añadido el objeto al inventario de usuario
-    // expect(await DBManager.BD.getCoins("alex")).toEquals(moneyOld-(await DBManager.BD.getItemPrice("gato"))); //Esperamos que buy() haya modificado el dinero de usuario(decrementandolo de acuerdo al precio del producto)
     
   })
 
@@ -75,26 +61,77 @@ test("buy añade objeto", async () => {
     let varia = expNew-expOld;
     console.log(varia);
     expect(varia).toEqual(await database.getItemExp('burger'));
-    // await eat(food);
-    // expect(await DBManager.BD.getCoins("alex")).toEquals(moneyOld-(await DBManager.BD.getItemPrice("sandia"))); //Esperamos que eat() haya modificado el dinero de usuario(decrementandolo de acuerdo al precio del producto)
-    // expect(await DBManager.BD.getExp("alex")).toEquals(expOld + (await DBManager.BD.getItemExp("sandia"))); //Esperamos que eat() haya modificado la experiencia del usuario (incrementandola de acuerdo a la experiencia asociada al producto)
-    //expect(await eat(food)).toBe(2)
   })
 /*
   test("comprobamos que los metodos equip() equipen los objetos", async () => {
-    let cosmeticH = {id: "gorro"};
-    let cosmeticB = {id: "pajarita"};
-    let cosmeticD = {id: "chancla"};
-    let cosmeticF = {id: "gafas"};
-    await DBManager.BD.setBuy("alex",["gorro","pajarita","chancla", "gafas"]); //Señalamos que estos objetos pertenecen al usuario
-    await DBManager.BD.equipH("gorro");
-    await DBManager.BD.equipB("pajarita");
-    await DBManager.BD.equipD("chancla");
-    await DBManager.BD.equipF("gafas");
-    expect(await DBManager.BD.getEquipped("alex")).toContain("gorro"); //Esperamos que equipH() haya equipado el objeto
-    expect(await DBManager.BD.getEquipped("alex")).toContain("pajarita"); //Esperamos que equipB() haya equipado el objeto
-    expect(await DBManager.BD.getEquipped("alex")).toContain("chancla"); //Esperamos que equipD() haya equipado el objeto
-    expect(await DBManager.BD.getEquipped("alex")).toContain("gafas"); //Esperamos que equipF() haya equipado el objeto
+    
+    await database.setBuy("Prueba",["gorro","pajarita","chancla", "gafas"]); //Señalamos que estos objetos pertenecen al usuario
+    await equipH(
+    {
+      id:'gorro',
+      className:'aaaaaaaa',
+      classList: {
+        arr: [],
+        add: function(variable) 
+        {
+          this.arr.push(variable);
+        },
+        remove: function(variable)
+        {
+          this.arr.pop(variable);
+        }
+      }
+    });
+    await equipB({
+      id:'pajarita',
+      className:'aaaaaaaN',
+      classList: {
+        arr: [],
+        add: function(variable) 
+        {
+          this.arr.push(variable);
+        },
+        remove: function(variable)
+        {
+          this.arr.pop(variable);
+        }
+      }
+    });
+    await equipD({
+      id:'chancla',
+      className:'aaaaaaaN',
+      classList: {
+        arr: [],
+        add: function(variable) 
+        {
+          this.arr.push(variable);
+        },
+        remove: function(variable)
+        {
+          this.arr.pop(variable);
+        }
+      }
+    });
+    await equipF({
+      id:'gafas',
+      className:'aaaaaaaN',
+      classList: {
+        arr: [],
+        add: function(variable) 
+        {
+          this.arr.push(variable);
+        },
+        remove: function(variable)
+        {
+          this.arr.pop(variable);
+        }
+      }
+    });
+    
+    expect(await database.getEquipped('Prueba').Head).toBe('gorro'); //Esperamos que equipH() haya equipado el objeto
+    expect(await database.getEquipped('Prueba')).toBe("pajarita"); //Esperamos que equipB() haya equipado el objeto
+    expect(await database.getEquipped('Prueba')).toBe("chancla"); //Esperamos que equipD() haya equipado el objeto
+    expect(await database.getEquipped('Prueba')).toBe("gafas"); //Esperamos que equipF() haya equipado el objeto
 })
 
 test("comprobamos que los metodos unequip() quiten los objetos anteriormente equipados a la mascota", async () => {
