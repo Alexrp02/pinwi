@@ -21,6 +21,7 @@ let database = db
 beforeAll(async ()=>{
   database.init()
   window.sessionStorage.setItem('username', 'Prueba')
+  window.sessionStorage.setItem('user', 'Prueba')
   database.setCoins('Prueba', 999)
 })
 
@@ -30,7 +31,17 @@ test("buy añade objeto", async () => {
     await buy({
       id:'gorro',
       className:'aaaaaaaN',
-      classList:{}
+      classList: {
+        arr: [],
+        add: function(variable) 
+        {
+          this.arr.push(variable);
+        },
+        remove: function(variable)
+        {
+          this.arr.pop(variable);
+        }
+      }
     })
     let itemPrice = await database.getItemPrice('gorro')
     expect(await database.getBuy('Prueba')).toContain('gorro')
@@ -41,15 +52,35 @@ test("buy añade objeto", async () => {
   })
 
   test("eat compra comida y alimenta a la mascota",async () => {
-    // let moneyOld = await DBManager.BD.getCoins("alex");
-    // let expOld = await DBManager.BD.getExp("alex");
-    let food = {id: "sandia"};
+    let moneyOld = await database.getCoins('Prueba');
+    let expOld = await database.getExp('Prueba');
+    await eat({
+      id:'burger',
+      className:'aaaaaaaN',
+      classList: {
+        arr: [],
+        add: function(variable) 
+        {
+          this.arr.push(variable);
+        },
+        remove: function(variable)
+        {
+          this.arr.pop(variable);
+        }
+      }
+    })
+    let moneyNew = await database.getCoins('Prueba');
+    let expNew = await database.getExp('Prueba');
+    expect(moneyOld-moneyNew).toEqual(await database.getItemPrice('burger'));
+    let varia = expNew-expOld;
+    console.log(varia);
+    expect(varia).toEqual(await database.getItemExp('burger'));
     // await eat(food);
     // expect(await DBManager.BD.getCoins("alex")).toEquals(moneyOld-(await DBManager.BD.getItemPrice("sandia"))); //Esperamos que eat() haya modificado el dinero de usuario(decrementandolo de acuerdo al precio del producto)
     // expect(await DBManager.BD.getExp("alex")).toEquals(expOld + (await DBManager.BD.getItemExp("sandia"))); //Esperamos que eat() haya modificado la experiencia del usuario (incrementandola de acuerdo a la experiencia asociada al producto)
-    expect(await eat(food)).toBe(2)
+    //expect(await eat(food)).toBe(2)
   })
-
+/*
   test("comprobamos que los metodos equip() equipen los objetos", async () => {
     let cosmeticH = {id: "gorro"};
     let cosmeticB = {id: "pajarita"};
@@ -86,7 +117,7 @@ test("comprobamos que los metodos unequip() quiten los objetos anteriormente equ
   expect(await DBManager.BD.getEquipped("alex")).not.toContain("chancla"); //Esperamos que unequipD() haya quitado los objetos de los pies
   expect(await DBManager.BD.getEquipped("alex")).not.toContain("gafas"); //Esperamos que unequipF() haya quitado los objetos de la cara
 })
-
+*/
 
 
 

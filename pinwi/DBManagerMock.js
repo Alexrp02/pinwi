@@ -35,7 +35,12 @@ class DBManager {
 
 	async init() {
 		this.objetos.set('gorro', {
-			'Price':2 
+			Price:2
+		})
+		this.objetos.set('burger', {
+			EXP: 7,
+			Price: 3,
+			
 		})
 		this.database.set('Prueba', {
 			'Password': 'Prueba',
@@ -176,7 +181,7 @@ class DBManager {
 	* var precio = await getItemPrice("ternera");
 		*/
 	async getItemPrice(nombreItem) {
-		return this.objetos.get(nombreItem).Price
+		return this.objetos.get(nombreItem).Price;
 	}
 
 	/** El parámetro es el nombre del item, 
@@ -187,13 +192,14 @@ class DBManager {
 * var exp = await getItemExp("ternera");
 	*/
 	async getItemExp(nombreItem) {
-		const docRef = doc(DBManager.BD, "shop", nombreItem);
+		/*const docRef = doc(DBManager.BD, "shop", nombreItem);
 		const docSnap = await getDoc(docRef);
 		let resultao = -1;
 		if (docSnap.exists()) {
 			resultao = await docSnap.get("XP");
 		}
-		return resultao;
+		return resultao;*/
+		return this.objetos.get(nombreItem).EXP;
 	}
 
 

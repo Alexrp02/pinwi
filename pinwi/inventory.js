@@ -164,10 +164,10 @@ async function buy(obj) {
     let precio = await db.getItemPrice(objN)
     mon = await db.getCoins(user)
     if (mon >= precio && obj.className[7] == 'N') {
-        // obj.classList.add("boxB")
-        // obj.classList.remove("boxNB")
+        obj.classList.add("boxB")
+        obj.classList.remove("boxNB")
         mon = mon - precio
-        // money.innerHTML = mon + "€"
+       // money.innerHTML = mon + "€"
         await db.setCoins(user, mon)
         bought = await db.getBuy(user)
         bought.push(objN)
@@ -256,20 +256,21 @@ function unequipF() {
 }
 
 async function eat(obj) {
-    // let objN = obj.id
-    // let precio = await db.getItemPrice(objN)
-    // let itemExp = await db.getItemExp(objN)
-    // if (mon >= precio && obj.className[7] == 'N') {
-    //     obj.classList.add("boxB")
-    //     obj.classList.remove("boxNB")
-    //     mon = mon - precio
-    //     exp += itemExp
-    //     money.innerHTML = mon + "€"
-    //     await db.setCoins(user, mon)
-    //     await db.setExp(user, exp)
-    //     setTimeout(() => { obj.classList.add("boxNB") }, 1000);
-    //     setTimeout(() => { obj.classList.remove("boxB") }, 1000);
-    // }
+    let objN = obj.id
+    let precio = await db.getItemPrice(objN)
+    let itemExp = await db.getItemExp(objN)
+    exp = await db.getExp(user);
+    if (mon >= precio && obj.className[7] == 'N') {
+        obj.classList.add("boxB")
+        obj.classList.remove("boxNB")
+        mon = mon - precio
+        exp += itemExp
+        //money.innerHTML = mon + "€"
+        await db.setCoins(user, mon)
+        await db.setExp(user, exp)
+        setTimeout(() => { obj.classList.add("boxNB") }, 1000);
+        setTimeout(() => { obj.classList.remove("boxB") }, 1000);
+    }
     return 2
 }
 module.exports = {buy, eat, db}
