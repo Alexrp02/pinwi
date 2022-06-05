@@ -96,3 +96,4 @@ document.addEventListener("DOMContentLoaded", () => {
         
     }); 
 });
+module.exports = {setFormMessage, clearInputError, setInputError}

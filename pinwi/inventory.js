@@ -1,6 +1,6 @@
-// import DBManager  from './DBManager.js';
+// import DBManager  from './DBManager.js'; //Comentar para tests
 
-let DBManager = require('./DBManagerMock')
+let DBManager = require('./DBManagerMock')  //Usar esto para tests
 
 let db = DBManager ;
 
@@ -172,7 +172,7 @@ async function buy(obj) {
         await db.setCoins(user, mon)
         bought = await db.getBuy(user)
         bought.push(objN)
-        console.log(bought)
+        //console.log(bought)
         await db.setBuy(user, bought)
     }
 }

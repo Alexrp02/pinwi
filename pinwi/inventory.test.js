@@ -4,7 +4,7 @@
 // import {buy,eat} from "./inventory.js"; 
 
 const { JS_EXT_TO_TREAT_AS_ESM } = require("ts-jest")
-const {buy, eat, db, equipH, equipB, equipD, equipF, unequipH, unequipB, unequipF,unequipD} = require("./inventory.js")
+const {buy, eat, db, equipH, equipB, equipD, equipF, unequipH, unequipB, unequipF,unequipD} = require("./inventory")
 let database = db
 
 beforeAll(async ()=>{
@@ -34,6 +34,7 @@ test("buy añade objeto", async () => {
     let itemPrice = await database.getItemPrice('gorro')
     expect(await database.getBuy('Prueba')).toContain('gorro')
     expect(await database.getCoins('Prueba')).toBe(moneyOld-itemPrice)
+    console.log("buy ejecutado correctamente")
     
   })
 
@@ -59,8 +60,9 @@ test("buy añade objeto", async () => {
     let expNew = await database.getExp('Prueba');
     expect(moneyOld-moneyNew).toEqual(await database.getItemPrice('burger'));
     let varia = expNew-expOld;
-    console.log(varia);
     expect(varia).toEqual(await database.getItemExp('burger'));
+
+    console.log("eat ejecutado correctamente");
   })
 /*
   test("comprobamos que los metodos equip() equipen los objetos", async () => {

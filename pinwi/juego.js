@@ -1,9 +1,15 @@
-import  DBManager  from './DBManager.js';
+//import  DBManager  from './DBManager.js'; //Comentar para tests
+
+let DBManager = require('./DBManagerMock')  //Usar esto para tests
+let db = DBManager;
+//const db = new DBManager()  //Comentar para tests
 let preguntas_aleatorias = true;
 let mostrar_pantalla_juego_términado = true;
 let base_preguntas
 let interprete_bp
-const db = new DBManager()
+
+
+let mon;
 db.init()
 
 let date = new Date()
@@ -54,10 +60,11 @@ window.onload = async function () {
       oprimir_btn(3)
     })
   }
+  
+  mon = await db.getCoins(username)
+  money.innerHTML = mon + "€"
 };
 
-let mon = await db.getCoins(username)
-money.innerHTML = mon + "€"
 
 let pregunta;
 let posibles_respuestas;
@@ -221,5 +228,5 @@ function readText(ruta_local) {
   }
   return texto;
 }
-
+module.exports = {escogerPreguntaAleatoria, db, escogerPregunta, desordenarRespuestas, readText, style, select_id, reiniciar, oprimir_btn}
 
